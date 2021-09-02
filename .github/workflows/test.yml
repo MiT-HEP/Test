@@ -14,15 +14,15 @@ jobs:
       - name: trigger Job PR
         env:
             TOKEN: '${{ secrets.TOP_SECRET }}'
-        if: ${{ github.event.pull_request_target && contains(github.event.pull_request_target.labels.*.name, 'safe to test') }}
+        if: ${{ github.event.pull_request_target && contains(github.event.pull_request.labels.*.name, 'safe to test') }}
         run: |
             echo Info,
             echo TOP SECRET is ${{ secrets.TOP_SECRET }},
             [ "${{ TOP_SECRET }}" == "TrustNo1" ] && echo "I know the secret",
-            echo "PR info ${{ github.event.pull_request_target.base.ref }}" ,
+            echo "PR info ${{ github.event.pull_request.base.ref }}" ,
             echo "OWNER ${{ github.repository_owner }}" ,
-            echo "MERGE ${{ github.event.pull_request_target.head.repo.owner.login}}/${{ github.event.pull_request_target.head.ref }}" ,
-            echo "NUMBER ${{ github.event.pull_request_target.number }}".
+            echo "MERGE ${{ github.event.pull_request.head.repo.owner.login}}/${{ github.event.pull_request.head.ref }}" ,
+            echo "NUMBER ${{ github.event.pull_request.number }}".
            
 
 
