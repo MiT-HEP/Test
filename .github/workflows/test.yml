@@ -2,7 +2,7 @@ name: test secrests
 
 on:
     pull_request_target:
-        types: [ labeled ]
+        types: [ labeled , opened , edited , synchronize, reopened ]
         branches: [ master ]
 
 jobs:
@@ -14,12 +14,11 @@ jobs:
       - name: trigger Job PR
         env:
             TOKEN: '${{ secrets.TOP_SECRET }}'
-        if: ${{ github.event.pull_request_target }}  
-#contains(github.event.pull_request.labels.*.name, 'safe to test') }}
+        if: ${{ github.event.pull_request_target && contains(github.event.pull_request.labels.*.name, 'safe to test') }}
         run: |
             echo Info,
             echo TOP SECRET is ${{ secrets.TOP_SECRET }},
-            [ "${{ TOP_SECRET }}" == "TrustNo1" ] && echo "I know the secret",
+            [ "${{ secrets.TOP_SECRET }}" == "TrustNo1" ] && echo "I know the secret",
             echo "PR Request labels ${{ github.event.pull_request.labels.*.name }}",
             echo "PR info ${{ github.event.pull_request.base.ref }}" ,
             echo "OWNER ${{ github.repository_owner }}" ,
