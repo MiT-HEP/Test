@@ -14,7 +14,7 @@ jobs:
       - name: trigger Job PR
         env:
             TOKEN: '${{ secrets.TOP_SECRET }}'
-        if: ${{ github.event.pull_request_target }}
+#        if: ${{ github.event.pull_request_target }}
 #&& contains(github.event.pull_request.labels.*.name, 'safe to test') }}
         run: |
             echo Info,
