@@ -1,7 +1,9 @@
 name: test secrests
 
 on:
-    pull_request_target: [master]
+    pull_request_target:
+        types: [labeled]
+        branches: [ master ]
 
 jobs:
   build:
