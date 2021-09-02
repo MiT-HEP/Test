@@ -5,4 +5,3 @@ LLL
 KKK
 LLL
 BBB
-345
