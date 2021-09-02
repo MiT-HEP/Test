@@ -5,19 +5,17 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Test secrets
     runs-on: ubuntu-latest
-    environment:
-        name: test_secrets
 
     steps:
       - name: trigger Job PR
         env:
-            TOKEN: '${{ secrets.TOKEN }}'
+            TOKEN: '${{ secrets.TOP_SECRET }}'
         if: ${{ github.event.pull_request_target && contains(github.event.pull_request.labels.*.name, 'safe to test') }}
         run |
             echo Info
-            echo TOP SECRET is ${{ TOP_SECRET }}
+            echo TOP SECRET is ${{ secrets.TOP_SECRET }}
             [ "${{ TOP_SECRET }}" == "TrustNo1" ] && echo "I know the secret"
             echo "PR info: ${{ github.event.pull_request.base.ref }} ${{ github.repository_owner }} ${{ github.event.pull_request.head.repo.owner.login}}/${{ github.event.pull_request.head.ref }} ${{ github.event.pull_request.number }}"
            
