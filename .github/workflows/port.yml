@@ -33,7 +33,7 @@ jobs:
             echo "push"
             git push origin rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
             echo "curl"
-        curl  -X POST -H "Accept: application/vnd.github.v3+json" -H"authorization: Bearer $GITHUB_TOKEN"  https://api.github.com/repos/${{env.REPO}}/pulls -d '{"head":"rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}","base":"${{env.ONTO}}", "title":"rebase of ${{ github.event.pull_request.number }}, "body":"This is a rebase of #${{ github.event.pull_request.number }} onto ${{ env.ONTO }}"}'
+            curl  -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'   https://api.github.com/repos/${{env.REPO}}/pulls -d '{"head":"rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}","base":"${{env.ONTO}}", "title":"rebase of ${{ github.event.pull_request.number }}, "body":"This is a rebase of #${{ github.event.pull_request.number }} onto ${{ env.ONTO }}"}'
 
 
 
