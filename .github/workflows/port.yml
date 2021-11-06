@@ -24,10 +24,9 @@ jobs:
             cd clone_dir
             git remote add other https://github.com/${{github.event.pull_request.head.repo.full_name}}
             git fetch other
-            #${{ github.event.pull_request.head.repo.owner.login}}
-            #${{ github.event.pull_request.head.ref }}
-            git checkout -b rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
-            git rebase ${{ github.event.pull_request.base.ref }}  other/${{github.event.pull_request.head.ref}} 
+            #git checkout -b rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
+            git branch rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }} other/${{github.event.pull_request.head.ref}}
+            git rebase --onto ${{env.ONTO}} origin/${{ github.event.pull_request.base.ref }}  rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
             git push origin rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
             curl  -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{env.REPO}}/pulls -d '{"head":"rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}","base":"${{env.ONTO}}", "title":"rebase of ${{ github.event.pull_request.number }}, "body":"This is a rebase of #${{ github.event.pull_request.number }} onto ${{ env.ONTO }}"}'
 
