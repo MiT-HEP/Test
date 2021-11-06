@@ -19,8 +19,9 @@ jobs:
         if: ${{ github.event.pull_request && contains(github.event.pull_request.labels.*.name, 'rebase onto') }}
         run: |
             ## checkout full repository
-            git clone git@github.com:HiggsAnalysis-CombinedLimit -b ${{ env.ONTO }}
-            cd HiggsAnalysis-CombineLimit
+            git config --global user.name "github-actions[bot]"
+            git clone https://github.com/${{env.REPO}} -b ${{ env.ONTO }} clone_dir
+            cd clone_dir
             git checkout -b rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
             git rebase ${{ github.event.pull_request.base.ref }}  ${{github.event.pull_request.head.ref}} 
             git push origin rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
