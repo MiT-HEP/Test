@@ -13,9 +13,9 @@ jobs:
     steps:
       - name: test rebase
         env:
-            #TOKEN: '${{ secrets.TOP_SECRET }}'
             ONTO: master
-            REPO: cms-analysis/HiggsAnalysis-CombinedLimit
+            #REPO: cms-analysis/HiggsAnalysis-CombinedLimit
+            REPO: MiT-HEP/Test
         if: ${{ github.event.pull_request && contains(github.event.pull_request.labels.*.name, 'rebase onto') }}
         run: |
             ## checkout full repository
