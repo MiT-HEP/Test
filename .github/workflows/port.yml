@@ -1,0 +1,30 @@
+name: test rebase
+
+on:
+    pull_request_target:
+        types: [ labeled ]
+        branches: [ master ]
+
+jobs:
+  build:
+    name: Test rebase
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: test rebase
+        env:
+            #TOKEN: '${{ secrets.TOP_SECRET }}'
+            ONTO: master
+            REPO: cms-analysis/HiggsAnalysis-CombinedLimit
+        if: ${{ github.event.pull_request && contains(github.event.pull_request.labels.*.name, 'rebase onto') }}
+        run: |
+            ## checkout full repository
+            git clone git@github.com:HiggsAnalysis-CombinedLimit -b ${{ env.ONTO }}
+            cd HiggsAnalysis-CombineLimit
+            git checkout -b rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
+            git rebase ${{ github.event.pull_request.base.ref }}  ${{github.event.pull_request.head.ref}} 
+            git push origin rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
+            curl  -X POST -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/${{env.REPO}}/pulls -d '{"head":"rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}","base":"${{env.ONTO}}", "title":"rebase of ${{ github.event.pull_request.number }}, "body":"This is a rebase of #${{ github.event.pull_request.number }} onto ${{ env.ONTO }}"}'
+
+
+
