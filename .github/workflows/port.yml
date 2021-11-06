@@ -16,12 +16,14 @@ jobs:
             ONTO: master
             #REPO: cms-analysis/HiggsAnalysis-CombinedLimit
             REPO: MiT-HEP/Test
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ github.event.pull_request && contains(github.event.pull_request.labels.*.name, 'rebase onto') }}
         run: |
             ## checkout full repository
             git config --global user.name "github-actions[bot]"
             git clone https://github.com/${{env.REPO}} -b ${{ env.ONTO }} clone_dir
             cd clone_dir
+            git remote set-url --push origin https://github-actions-bot:$GITHUB_TOKEN@github.com/${{ env.REPO }}
             git remote add other https://github.com/${{github.event.pull_request.head.repo.full_name}}
             git fetch other
             git branch rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }} other/${{github.event.pull_request.head.ref}}
