@@ -32,10 +32,8 @@ jobs:
             git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all -n 10
             echo "push"
             git push origin rebase_${{ github.event.pull_request.number }}_onto_${{ env.ONTO }}
-            data='{"head":"rebase_'${{ github.event.pull_request.number }}'_onto_'${{ env.ONTO }}'","base":"'${{env.ONTO}}'", "title":"rebase of '${{ github.event.pull_request.number }}'", "body":"This is a rebase of #'${{ github.event.pull_request.number }}' onto '${{ env.ONTO }}'"}'
             echo "curl"
-            echo "> payload $data"
-            curl  -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'   https://api.github.com/repos/${{env.REPO}}/pulls -d $data
+            curl  -X POST -H "Accept: application/vnd.github.v3+json" -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'   https://api.github.com/repos/${{env.REPO}}/pulls -d '{"head":"rebase_'${{ github.event.pull_request.number }}'_onto_'${{ env.ONTO }}'","base":"'${{env.ONTO}}'", "title":"rebase of '${{ github.event.pull_request.number }}'", "body":"This is a rebase of #'${{ github.event.pull_request.number }}' onto '${{ env.ONTO }}'"}'
 
 
 
