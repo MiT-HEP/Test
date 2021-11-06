@@ -22,7 +22,7 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git clone https://github.com/${{env.REPO}} -b ${{ env.ONTO }} clone_dir
             cd clone_dir
-            git remote add other ${{github.event.pull_request.head.repo.full_name}}
+            git remote add other https://github.com/${{github.event.pull_request.head.repo.full_name}}
             git fetch other
             #${{ github.event.pull_request.head.repo.owner.login}}
             #${{ github.event.pull_request.head.ref }}
