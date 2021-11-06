@@ -3,7 +3,7 @@ name: test rebase
 on:
     pull_request_target:
         types: [ labeled ]
-        branches: [ master ]
+        branches: [ mybranch ]
 
 jobs:
   build:
